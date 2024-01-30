@@ -17,6 +17,19 @@ namespace Whatsapp_web_back.Controllers
             return Ok(chatData);
         }
 
+        [HttpGet("{contactId}/messages")]
+        public IActionResult GetContactMessages(int contactId)
+        {
+            ContactModel contact = chatData.Contacts.Find(c => c.Id == contactId);
+            if (contact == null)
+            {
+                return NotFound($"Contact with ID {contactId} not found.");
+            }
+
+            return Ok(contact.Messages);
+        }
+
+
         [HttpPost("addMessage/{contactId}")]
         public IActionResult AddMessage(int contactId, [FromBody] MessageModel newMessage)
         {
