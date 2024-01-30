@@ -11,6 +11,20 @@ namespace Whatsapp_web_back.Controllers
     {
         private static ChatData chatData = GetSampleChatData();
 
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginModel loginModel)
+        {
+            // Trova l'utente corrispondente dal modello di login
+            UserModel user = chatData.Users.Find(u => u.Username == loginModel.Username && u.PasswordHash == loginModel.Password);
+
+            if (user == null)
+            {
+                return Unauthorized("Invalid username or password");
+            }
+
+            return Ok(user);
+        }
+
         [HttpGet]
         public IActionResult GetChatData()
         {
@@ -52,6 +66,12 @@ namespace Whatsapp_web_back.Controllers
             return new ChatData
             {
                 User = new UserModel { Name = "Gabriele Lombardo", Avatar = "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png" },
+                Users = new List<UserModel>
+                {
+                    new UserModel { Id = 1, Name = "user", Username = "user", PasswordHash = "hashed_password", Avatar = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" },
+                },
+
+
                 Contacts = new List<ContactModel>
             {
                 new ContactModel

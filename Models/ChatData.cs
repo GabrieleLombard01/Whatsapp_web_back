@@ -3,7 +3,8 @@
     public class ChatData
     {
         public UserModel User { get; set; }
+        public List<UserModel> Users { get; set; }
         public List<ContactModel> Contacts { get; set; }
     }
-
 }
+
